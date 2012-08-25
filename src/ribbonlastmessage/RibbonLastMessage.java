@@ -6,6 +6,8 @@
 
 package ribbonlastmessage;
 
+import java.io.IOException;
+
 /**
  * Main class
  * @author Stanislav Nepochatov
@@ -99,7 +101,8 @@ public class RibbonLastMessage {
                     RibbonLastMessage.networkIsUp = true;
                     RibbonLastMessage.messageWindow.setState();
                     String inputLine = null;
-                    outStream.println("RIBBON_NCTL_INIT:CLIENT,a2");
+                    outStream.println("RIBBON_NCTL_INIT:CLIENT,a2," + System.getProperty("file.encoding"));
+                    waitForOK();
                     outStream.println("RIBBON_NCTL_LOGIN:{root},74cc1c60799e0a786ac7094b532f01b1");
                     RibbonLastMessage.loadLastMessage();
                     while (isAlive) {
@@ -120,6 +123,18 @@ public class RibbonLastMessage {
                 } catch (java.io.IOException ex) {
                     RibbonLastMessage.errorMessage("Неможливо зчитати дані з сокету!");
                     RibbonLastMessage.networkIsUp = false;
+                }
+            }
+        }
+        
+        /**
+         * Make current thread wait for status returning.
+         */
+        public void waitForOK() throws IOException {
+            String returnedStatus;
+            while (networkIsUp) {
+                if ((returnedStatus = inStream.readLine()).equals("OK:")) {
+                    return;
                 }
             }
         }
