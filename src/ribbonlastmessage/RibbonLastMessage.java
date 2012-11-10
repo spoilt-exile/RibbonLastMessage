@@ -191,13 +191,15 @@ public class RibbonLastMessage {
     public static String multiLineGet(String givenCommand) {
         Boolean keepGetting = true;
         String gottenString = "";
+        StringBuffer gottenBuffer = new StringBuffer();
         RibbonLastMessage.outStream.println(givenCommand);
         while (keepGetting) {
             try {
                 String inputLine = RibbonLastMessage.inStream.readLine();
                 String[] parsedCommand = RibbonLastMessage.parseCommand(inputLine);
                 if (!inputLine.equals("END:")) {
-                    gottenString += inputLine + "\n";
+                    gottenBuffer.append(inputLine);
+                    gottenBuffer.append("\n");
                 } else if (parsedCommand[0].equals("RIBBON_ERROR:")) {
                     RibbonLastMessage.errorMessage(parsedCommand[1]);
                     return null;
@@ -208,7 +210,7 @@ public class RibbonLastMessage {
                 RibbonLastMessage.errorMessage("Неможливо отримати дані з сокету!");
             }
         }
-        return gottenString;
+        return gottenBuffer.toString();
     }
     
     /**
