@@ -29,7 +29,7 @@ public class messageFrame extends javax.swing.JFrame {
      * Show all messages properties in messageFrame
      * @param givenMessage a message to show
      */
-    public void showMessage(Message givenMessage) {
+    public void showMessage(MessageClasses.Message givenMessage) {
         this.setTitle("\"Стрічка\" >>> " + givenMessage.HEADER);
         this.indexField.setText(givenMessage.INDEX);
         this.authorField.setText(givenMessage.AUTHOR);
@@ -129,7 +129,7 @@ public class messageFrame extends javax.swing.JFrame {
                         .addGap(58, 58, 58)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(remoteField, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                        .addComponent(remoteField, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(connectBut))
                     .addGroup(layout.createSequentialGroup()
@@ -177,7 +177,7 @@ public class messageFrame extends javax.swing.JFrame {
                     .addComponent(tagsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

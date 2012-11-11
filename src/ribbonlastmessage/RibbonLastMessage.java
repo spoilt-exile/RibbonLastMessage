@@ -247,7 +247,7 @@ public class RibbonLastMessage {
      */
     public static void loadLastMessage() {
         String lastCsv = RibbonLastMessage.parseCommand(RibbonLastMessage.multiLineGetLast("RIBBON_LOAD_BASE_FROM_INDEX:0"))[1];
-        Message lastMessage = new Message(lastCsv);
+        MessageClasses.Message lastMessage = new MessageClasses.Message(lastCsv);
         lastMessage.CONTENT = RibbonLastMessage.multiLineGet("RIBBON_GET_MESSAGE:" + lastMessage.DIRS[0] + "," + lastMessage.INDEX);
         messageWindow.showMessage(lastMessage);
     }
@@ -257,7 +257,7 @@ public class RibbonLastMessage {
      * @param csvLine csv part of server notification
      */
     public static void loadNewMessage(String csvLine) {
-        Message newMessage = new Message(csvLine);
+        MessageClasses.Message newMessage = new MessageClasses.Message(csvLine);
         newMessage.CONTENT = RibbonLastMessage.multiLineGet("RIBBON_GET_MESSAGE:" + newMessage.DIRS[0] + "," + newMessage.INDEX);
         messageWindow.showMessage(newMessage);
     }
