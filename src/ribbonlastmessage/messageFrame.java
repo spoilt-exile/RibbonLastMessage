@@ -30,13 +30,36 @@ public class messageFrame extends javax.swing.JFrame {
      * @param givenMessage a message to show
      */
     public void showMessage(MessageClasses.Message givenMessage) {
-        this.setTitle("\"Стрічка\" >>> " + givenMessage.HEADER);
-        this.indexField.setText(givenMessage.INDEX);
-        this.authorField.setText(givenMessage.AUTHOR);
-        this.dateField.setText(givenMessage.DATE);
-        this.dirs.setText(csvHandlerLE.renderGroup(givenMessage.DIRS));
-        this.tagsField.setText(csvHandlerLE.renderGroup(givenMessage.TAGS));
-        this.messageArea.setText(givenMessage.CONTENT);
+        this.setTitle("\"Стрічка\" >>> " + givenMessage.DATE);
+        StringBuffer renderedBuf = new StringBuffer();
+        renderedBuf.append("<html>");
+        renderedBuf.append("<b>Заголовок:</b> " + givenMessage.HEADER + "<br>");
+        renderedBuf.append("<b>Автор:</b> " + givenMessage.AUTHOR + "<br>");
+        renderedBuf.append("<b>Індекс:</b> " + givenMessage.INDEX + "<br>");
+        if (!givenMessage.ORIG_INDEX.equals("-1")) {
+            renderedBuf.append("<b>Автор оригіналу:</b> " + givenMessage.ORIG_AUTHOR + "<br>");
+            renderedBuf.append("<b>Індекс оригіналу:</b> " + givenMessage.ORIG_INDEX + "<br>");
+        }
+        renderedBuf.append("<b>Напрямки:</b> <font color=RED>" + Generic.CsvFormat.renderGroup(givenMessage.DIRS) + "</font><br>");
+        renderedBuf.append("<b>Теги:</b> <font color=GREEN>" + Generic.CsvFormat.renderGroup(givenMessage.TAGS) + "</font><br>");
+        renderedBuf.append("<b>Мова повідомлення:</b> " + givenMessage.LANG + "<br>");
+        renderedBuf.append("<b>Дата повідмолення:</b> " + givenMessage.DATE + "<br>");
+        if (!givenMessage.PROPERTIES.isEmpty()) {
+            renderedBuf.append("<br><b>Системні ознаки:</b><br>");
+            java.util.ListIterator<MessageClasses.MessageProperty> propIter = givenMessage.PROPERTIES.listIterator();
+            while (propIter.hasNext()) {
+                MessageClasses.MessageProperty currProp = propIter.next();
+                renderedBuf.append("[");
+                renderedBuf.append(currProp.PROPERTY_PREFIX.name() + ",");
+                renderedBuf.append(currProp.USER + ",");
+                renderedBuf.append(currProp.TEXT_MESSAGE + ",");
+                renderedBuf.append(currProp.DATE + "]<br>");
+            }
+            renderedBuf.append("<br>");
+        }
+        renderedBuf.append("<br>");
+        renderedBuf.append(givenMessage.CONTENT.replace("\n", "<br>"));
+        this.messageArea.setText(renderedBuf.toString());
     }
     
     /**
@@ -61,19 +84,9 @@ public class messageFrame extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         messageArea = new javax.swing.JTextPane();
-        authorField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        dateField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        dirs = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        tagsField = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         remoteField = new javax.swing.JTextField();
         connectBut = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        indexField = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("\"Стрічка\" >>>");
@@ -83,24 +96,9 @@ public class messageFrame extends javax.swing.JFrame {
             }
         });
 
+        messageArea.setContentType("text/html");
         messageArea.setEditable(false);
         jScrollPane1.setViewportView(messageArea);
-
-        authorField.setEditable(false);
-
-        jLabel1.setText("Автор");
-
-        dateField.setEditable(false);
-
-        jLabel2.setText("Час");
-
-        dirs.setEditable(false);
-
-        jLabel3.setText("Напрямки");
-
-        tagsField.setEditable(false);
-
-        jLabel4.setText("Теги");
 
         remoteField.setText("127.0.0.1:3003");
 
@@ -113,39 +111,22 @@ public class messageFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Адреса:порт");
 
-        indexField.setEditable(false);
-
-        jLabel6.setText("Індекс");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(remoteField, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(connectBut))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dateField)
-                            .addComponent(dirs)
-                            .addComponent(tagsField)
-                            .addComponent(authorField)
-                            .addComponent(indexField))))
+                        .addComponent(connectBut)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -157,27 +138,7 @@ public class messageFrame extends javax.swing.JFrame {
                     .addComponent(connectBut)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(indexField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dirs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tagsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -238,20 +199,10 @@ public class messageFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField authorField;
     private javax.swing.JButton connectBut;
-    private javax.swing.JTextField dateField;
-    private javax.swing.JTextField dirs;
-    private javax.swing.JTextField indexField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane messageArea;
     private javax.swing.JTextField remoteField;
-    private javax.swing.JTextField tagsField;
     // End of variables declaration//GEN-END:variables
 }
