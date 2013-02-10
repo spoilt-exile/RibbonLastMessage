@@ -114,7 +114,7 @@ public class RibbonLastMessage {
                     String inputLine = null;
                     outStream.println("RIBBON_NCTL_INIT:CLIENT,a2," + System.getProperty("file.encoding"));
                     waitForOK();
-                    outStream.println("RIBBON_NCTL_LOGIN:{root},74cc1c60799e0a786ac7094b532f01b1");
+                    outStream.println("RIBBON_NCTL_LOGIN:{root},63a9f0ea7bb98050796b649e85481845");
                     RibbonLastMessage.loadLastMessage();
                     while (isAlive) {
                         inputLine = inStream.readLine();
