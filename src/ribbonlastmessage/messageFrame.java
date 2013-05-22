@@ -65,7 +65,7 @@ public class messageFrame extends javax.swing.JFrame {
             while (propIter.hasNext()) {
                 MessageClasses.MessageProperty currProp = propIter.next();
                 renderedBuf.append("[");
-                renderedBuf.append(currProp.PROPERTY_PREFIX.name() + ",");
+                renderedBuf.append(currProp.TYPE + ",");
                 renderedBuf.append(currProp.USER + ",");
                 renderedBuf.append(currProp.TEXT_MESSAGE + ",");
                 renderedBuf.append(currProp.DATE + "]<br>");
