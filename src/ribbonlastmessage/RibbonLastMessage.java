@@ -19,6 +19,8 @@
 
 package ribbonlastmessage;
 
+import javax.swing.JOptionPane;
+
 /**
  * Main class
  * @author Stanislav Nepochatov
@@ -115,6 +117,7 @@ public class RibbonLastMessage {
                     outStream.println("RIBBON_NCTL_INIT:CLIENT,a2," + System.getProperty("file.encoding"));
                     waitForOK();
                     outStream.println("RIBBON_NCTL_LOGIN:{root},63a9f0ea7bb98050796b649e85481845");
+                    waitForOK();
                     RibbonLastMessage.loadLastMessage();
                     while (isAlive) {
                         inputLine = inStream.readLine();
@@ -142,10 +145,12 @@ public class RibbonLastMessage {
          * Make current thread wait for status returning.
          */
         public void waitForOK() throws java.io.IOException {
-            String returnedStatus;
             while (networkIsUp) {
-                if ((returnedStatus = inStream.readLine()).equals("OK:")) {
+                String answer = inStream.readLine();
+                if (answer.equals("OK:")) {
                     return;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Відповідь сервера: " + Generic.CsvFormat.parseDoubleStruct(answer)[1], "Ошибка протокола", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
