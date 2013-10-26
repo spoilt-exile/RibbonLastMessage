@@ -147,7 +147,7 @@ public class RibbonLastMessage {
         public void waitForOK() throws java.io.IOException {
             while (networkIsUp) {
                 String answer = inStream.readLine();
-                if (answer.equals("OK:")) {
+                if (answer.startsWith("OK:")) {
                     return;
                 } else {
                     JOptionPane.showMessageDialog(null, "Відповідь сервера: " + Generic.CsvFormat.parseDoubleStruct(answer)[1], "Ошибка протокола", JOptionPane.ERROR_MESSAGE);
